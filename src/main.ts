@@ -14,9 +14,11 @@ async function run(): Promise<void> {
 
         core.startGroup("Installing Eask");
 
-        if (version != "snapshot") {
+        if (version !== "snapshot") {
             cmd += "@" + version;
         }
+
+        console.log(cmd);
 
         await exec.exec(cmd);
 
