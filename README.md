@@ -6,7 +6,7 @@
 
 [![CI](https://github.com/emacs-eask/setup-eask/actions/workflows/test.yml/badge.svg)](https://github.com/emacs-eask/setup-eask/actions/workflows/test.yml)
 
-## Basic
+## 🔨 Usage
 
 ```yml
 jobs:
@@ -20,7 +20,7 @@ jobs:
 
     - uses: purcell/setup-emacs@master
       with:
-        version: '26.3'
+        version: '27.2'
 
     - uses: emacs-eask/setup-eask@master
       with:
@@ -29,6 +29,12 @@ jobs:
     - name: Run tests
       run: make test
 ```
+
+This example is testing your package in below environment.
+
+* Emacs: `27.2`
+* Node: `12.x`
+* Eask: `snapshot` (latest)
 
 ## License
 
