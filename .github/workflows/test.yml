@@ -23,9 +23,9 @@ jobs:
       with:
         node-version: 12.x
 
-    - uses: emacs-eask/setup-eask@master
+    - uses: ./
       with:
-        version: 'snapshot'
+        version: ${{ matrix.eask_version }}
 
     - name: Check Eask version
       run: eask --version
