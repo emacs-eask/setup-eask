@@ -1,0 +1,11 @@
+name: 'Set up Eask'
+description: 'Install a specific Eask version for use in your workflow.'
+author: 'Shen, Jen-Chieh'
+inputs:
+  version:
+    description: 'The version of Eask to install, e.g. "0.0.8", or "snapshot" for a recent development version.'
+    default: 'snapshot'
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
