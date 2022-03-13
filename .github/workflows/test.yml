@@ -23,7 +23,9 @@ jobs:
       with:
         node-version: 12.x
 
-    - run: npm install -g @emacs-eask/eask
+    - uses: emacs-eask/setup-eask@master
+      with:
+        version: 'snapshot'
 
     - name: Check Eask version
       run: eask --version
