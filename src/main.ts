@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import * as exec from "@actions/exec";
 import * as io from "@actions/io";
 import * as tc from "@actions/tool-cache";
-import fs from 'fs'
+import fs from 'fs';
 
 async function run(): Promise<void> {
     try {
@@ -10,36 +10,24 @@ async function run(): Promise<void> {
 
         const version = core.getInput("version");
 
+        let cmd = "npm install -g @emacs-eask/eask"
+
         core.startGroup("Installing Eask");
 
-        if (version == "snapshot") {
-            
-        } else {
-            
+        if (version != "snapshot") {
+            cmd += "@" + version;
         }
 
-        const extractPath = "c:\\emacs";
-        if (!fs.existsSync(extractPath)) {
-            fs.mkdirSync(extractPath);
-        }
-
-        const emacsZip = await tc.downloadTool(zipPath);
-        const emacsDir = await tc.extractZip(emacsZip, extractPath);
-
-        let emacsRoot = emacsDir;
-        let emacsBin = emacsRoot + "\\bin";
-        if (!fs.existsSync(emacsBin)) {
-            emacsRoot = emacsDir + "\\" + emacs_dot_var;
-            emacsBin = emacsRoot + "\\bin";  // Refresh
-        }
-
-        core.exportVariable("PATH", `${PATH};${emacsRoot}`);
-        core.exportVariable("PATH", `${PATH};${emacsBin}`);
+        await exec.exec(cmd);
 
         core.endGroup();
 
     } catch (error) {
-        core.setFailed(error.message);
+        let errorMsg = "Failed to do something exceptional";
+        if (error instanceof Error) {
+            errorMsg = error.message;
+        }
+        core.setFailed(errorMsg);
     }
 }
 
