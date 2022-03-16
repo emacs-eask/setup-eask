@@ -2873,9 +2873,9 @@ function run() {
                 cmd += "@" + version;
             }
             yield exec.exec(cmd);
+            core.endGroup();
             // show Eask version
             yield exec.exec('eask', ['--version']);
-            core.endGroup();
         }
         catch (error) {
             let errorMsg = "Failed to do something exceptional";
