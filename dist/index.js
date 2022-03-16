@@ -2873,6 +2873,8 @@ function run() {
                 cmd += "@" + version;
             }
             yield exec.exec(cmd);
+            // show Eask version
+            yield exec.exec('eask', ['--version']);
             core.endGroup();
         }
         catch (error) {
