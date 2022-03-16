@@ -19,12 +19,11 @@ async function run(): Promise<void> {
         }
 
         await exec.exec(cmd);
-        
-        // show Eask version
-        await exec.exec('eask', ['--version']);
 
         core.endGroup();
 
+        // show Eask version
+        await exec.exec('eask', ['--version']);
     } catch (error) {
         let errorMsg = "Failed to do something exceptional";
         if (error instanceof Error) {
