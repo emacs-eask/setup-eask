@@ -5,6 +5,7 @@
 > Install Eask for Github Actions workflow
 
 [![CI](https://github.com/emacs-eask/setup-eask/actions/workflows/test.yml/badge.svg)](https://github.com/emacs-eask/setup-eask/actions/workflows/test.yml)
+[![Build](https://github.com/emacs-eask/setup-eask/actions/workflows/build.yml/badge.svg)](https://github.com/emacs-eask/setup-eask/actions/workflows/build.yml)
 
 ## 🔨 Usage
 
