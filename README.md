@@ -16,13 +16,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '16'
-
     - uses: jcs090218/setup-emacs@master
       with:
         version: '27.2'
+
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '16'
 
     - uses: emacs-eask/setup-eask@master
       with:
