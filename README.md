@@ -17,9 +17,9 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
-        node-version: 12.x
+        node-version: '16'
 
-    - uses: purcell/setup-emacs@master
+    - uses: jcs090218/setup-emacs@master
       with:
         version: '27.2'
 
