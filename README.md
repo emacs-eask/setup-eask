@@ -16,14 +16,17 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    # Install Emacs
     - uses: jcs090218/setup-emacs@master
       with:
         version: '27.2'
 
+    # Setup Node JS runtime
     - uses: actions/setup-node@v1
       with:
         node-version: '16'
 
+    # Install Eask
     - uses: emacs-eask/setup-eask@master
       with:
         version: 'snapshot'
