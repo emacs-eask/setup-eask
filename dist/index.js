@@ -3259,7 +3259,7 @@ function run() {
         try {
             const PATH = process.env.PATH;
             const version = core.getInput("version");
-            let cmd = "npm install -g @emacs-eask/eask";
+            let cmd = "npm install -g @emacs-eask/cli";
             core.startGroup("Installing Eask");
             if (version != "snapshot") {
                 cmd += "@" + version;

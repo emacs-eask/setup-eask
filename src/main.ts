@@ -10,7 +10,7 @@ async function run(): Promise<void> {
 
         const version = core.getInput("version");
 
-        let cmd = "npm install -g @emacs-eask/eask"
+        let cmd = "npm install -g @emacs-eask/cli";
 
         core.startGroup("Installing Eask");
 
