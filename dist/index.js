@@ -3306,7 +3306,7 @@ function run() {
                 '-o',
                 `${tmp}/${archiveName}`
             ]);
-            //await exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}`]);
+            yield exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}`]);
             yield exec.exec(`ls ${tmp}`);
             //const options = { recursive: true, force: false };
             //await io.mv(`${tmp}/eask-${version}`, `${home}/.eask`, options);
