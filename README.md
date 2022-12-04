@@ -21,11 +21,6 @@ jobs:
       with:
         version: '27.2'
 
-    # Setup Node JS runtime
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '16'
-
     # Install Eask
     - uses: emacs-eask/setup-eask@master
       with:
