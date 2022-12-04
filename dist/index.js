@@ -3254,7 +3254,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(186));
 const exec = __importStar(__nccwpck_require__(514));
-const io = __importStar(__nccwpck_require__(436));
 const os = __importStar(__nccwpck_require__(37));
 const https = __nccwpck_require__(687);
 function getPlatform() {
@@ -3280,7 +3279,6 @@ function getLatestTag() {
                     data += chunk.toString('utf8');
                 });
                 response.on("end", function () {
-                    console.log('Body: ' + data);
                     let json = JSON.parse(data);
                     resolve(json[0].name);
                 });
@@ -3309,9 +3307,10 @@ function run() {
                 `${tmp}/${archiveName}`
             ]);
             yield exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}`]);
+            yield exec.exec('ls');
             const options = { recursive: true, force: false };
-            yield io.mv(`${tmp}/eask-${version}`, `${home}/.eask`, options);
-            core.addPath(`${home}/.eask/bin`);
+            //await io.mv(`${tmp}/eask-${version}`, `${home}/.eask`, options);
+            //core.addPath(`${home}/.eask/bin`);
             core.endGroup();
             // show Eask version
             yield exec.exec('eask', ['--version']);
