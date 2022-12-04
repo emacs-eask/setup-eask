@@ -3254,17 +3254,55 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(186));
 const exec = __importStar(__nccwpck_require__(514));
+const io = __importStar(__nccwpck_require__(436));
+const os = __importStar(__nccwpck_require__(37));
+const https = __nccwpck_require__(687);
+function getPlatform() {
+    switch (process.platform) {
+        case 'linux': return 'linux';
+        case 'darwin': return 'macos';
+        case 'win32': return 'win';
+    }
+    return 'linux'; /* Default: linux */
+}
+function getLatestTag() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const url = 'https://api.github.com/repos/emacs-eask/cli/tags';
+        return new Promise((resolve) => {
+            let data = '';
+            https.get(url, (res) => {
+                res.on('data', (chunk) => { data += chunk; });
+                res.on('end', () => {
+                    let json = JSON.parse(data);
+                    resolve(json[0].name);
+                });
+            });
+        });
+    });
+}
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const PATH = process.env.PATH;
-            const version = core.getInput("version");
-            let cmd = "npm install -g @emacs-eask/cli";
-            core.startGroup("Installing Eask");
-            if (version != "snapshot") {
-                cmd += "@" + version;
-            }
-            yield exec.exec(cmd);
+            const home = os.homedir();
+            const tmp = os.tmpdir();
+            const latestVersion = yield getLatestTag(); // from emacs-eask/cli
+            const inputVersion = core.getInput("version");
+            const version = (inputVersion == 'snapshot') ? latestVersion : inputVersion;
+            const architecture = core.getInput("architecture");
+            const platform = getPlatform();
+            const archiveName = `eask_${version}_${platform}-${architecture}.zip`;
+            core.startGroup("Fetch Eask");
+            yield exec.exec('curl', [
+                '-L',
+                `https://github.com/emacs-eask/cli/releases/download/${version}/${archiveName}`,
+                '-o',
+                `${tmp}/${archiveName}`
+            ]);
+            yield exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}`]);
+            const options = { recursive: true, force: false };
+            yield io.mv(`${tmp}/eask-${version}`, `${home}/.eask`, options);
+            core.addPath(`${home}/.eask/bin`);
             core.endGroup();
             // show Eask version
             yield exec.exec('eask', ['--version']);

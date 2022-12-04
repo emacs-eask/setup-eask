@@ -2,6 +2,7 @@ import * as core from '@actions/core';
 import * as exec from "@actions/exec";
 import * as io from "@actions/io";
 import * as tc from "@actions/tool-cache";
+import * as os from 'os';
 import fs from 'fs';
 const https = require('https');
 
@@ -18,8 +19,8 @@ async function getLatestTag() {
     const url = 'https://api.github.com/repos/emacs-eask/cli/tags'
     return new Promise((resolve) => {
         let data = ''
-        https.get(url, res => {
-            res.on('data', chunk => { data += chunk })
+        https.get(url, (res: any) => {
+            res.on('data', (chunk: any) => { data += chunk })
             res.on('end', () => {
                 let json = JSON.parse(data);
                 resolve(json[0].name);
