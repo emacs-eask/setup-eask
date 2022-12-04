@@ -3273,6 +3273,7 @@ function getLatestTag() {
             https.get(url, (res) => {
                 res.on('data', (chunk) => { data += chunk; });
                 res.on('end', () => {
+                    console.log('end: ' + data);
                     let json = JSON.parse(data);
                     resolve(json[0].name);
                 });

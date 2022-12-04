@@ -22,6 +22,7 @@ async function getLatestTag() {
         https.get(url, (res: any) => {
             res.on('data', (chunk: any) => { data += chunk })
             res.on('end', () => {
+                console.log('end: ' + data);
                 let json = JSON.parse(data);
                 resolve(json[0].name);
             });
