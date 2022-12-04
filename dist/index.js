@@ -3251,11 +3251,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(186));
 const exec = __importStar(__nccwpck_require__(514));
 const io = __importStar(__nccwpck_require__(436));
 const os = __importStar(__nccwpck_require__(37));
+const fs_1 = __importDefault(__nccwpck_require__(147));
 const https = __nccwpck_require__(687);
 function getPlatform() {
     switch (process.platform) {
@@ -3307,9 +3311,11 @@ function run() {
                 '-o',
                 `${tmp}/${archiveName}`
             ]);
-            yield exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}`]);
+            fs_1.default.mkdirSync(`${tmp}/eask-${version}`);
+            yield exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}/eask-${version}`]);
+            yield exec.exec(`ls ${tmp}/eask-${version}`);
             const options = { recursive: true, force: false };
-            yield io.mv(`${tmp}/eask`, `${home}/eask-${version}`, options);
+            yield io.mv(`${tmp}/eask-${version}`, `${home}/eask-${version}`, options);
             core.addPath(`${home}/.eask/bin`);
             core.endGroup();
             // show Eask version

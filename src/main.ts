@@ -62,9 +62,11 @@ async function run(): Promise<void> {
             '-o',
             `${tmp}/${archiveName}`
         ]);
-        await exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}`]);
+        fs.mkdirSync(`${tmp}/eask-${version}`);
+        await exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}/eask-${version}`]);
+        await exec.exec(`ls ${tmp}/eask-${version}`);
         const options = { recursive: true, force: false };
-        await io.mv(`${tmp}/eask`, `${home}/eask-${version}`, options);
+        await io.mv(`${tmp}/eask-${version}`, `${home}/eask-${version}`, options);
         core.addPath(`${home}/.eask/bin`);
 
         core.endGroup();
