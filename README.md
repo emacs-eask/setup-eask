@@ -38,8 +38,15 @@ jobs:
 This example is testing your package in below environment.
 
 * Emacs: `27.2`
-* Node: `12.x`
+* Node: `16.x`
 * Eask: `snapshot` (latest)
+
+### Inputs
+
+| name         | value  | default  | description                                                                                   |
+|:-------------|:-------|:---------|:----------------------------------------------------------------------------------------------|
+| version      | string | snapshot | The version of Eask to install, e.g. "0.0.8", or "snapshot" for a recent development version. |
+| architecture | string | x64      | The target architecture (x64, arm64) of the Eask-CLI.                                         |
 
 ## License
 
