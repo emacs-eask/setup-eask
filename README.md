@@ -14,7 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    ...
 
     # Install Emacs
     - uses: jcs090218/setup-emacs@master
@@ -26,8 +26,7 @@ jobs:
       with:
         version: 'snapshot'
 
-    - name: Run tests
-      run: make test
+    ...
 ```
 
 This example is testing your package in below environment.
