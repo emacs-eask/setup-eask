@@ -3275,7 +3275,7 @@ function getLatestTag() {
         };
         return new Promise((resolve) => {
             let data = '';
-            let request = https.request(options, function (response) {
+            let request = https.request(url, options, function (response) {
                 response.on("data", function (chunk) {
                     data += chunk.toString('utf8');
                 });

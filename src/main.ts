@@ -25,7 +25,7 @@ async function getLatestTag() {
 
     return new Promise((resolve) => {
         let data = ''
-        let request = https.request(options, function(response: any){
+        let request = https.request(url, options, function(response: any){
             response.on("data", function(chunk: any){
                 data += chunk.toString('utf8');
             });
