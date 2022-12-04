@@ -3308,7 +3308,6 @@ function run() {
                 `${tmp}/${archiveName}`
             ]);
             yield exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}`]);
-            yield exec.exec(`ls ${tmp}`);
             const options = { recursive: true, force: false };
             yield io.mv(`${tmp}/eask`, `${home}/eask-${version}`, options);
             core.addPath(`${home}/.eask/bin`);
