@@ -3319,6 +3319,7 @@ function run() {
                 core.addPath(`${home}/eask-${version}`);
             }
             core.endGroup();
+            /* Chmod so let the operating system know it's executable! */
             if (platform != 'win') {
                 core.startGroup("Chmod if necessary");
                 yield exec.exec(`chmod -R 777 ${home}/eask-${version}`);

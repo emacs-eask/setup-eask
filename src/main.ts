@@ -71,6 +71,7 @@ async function run(): Promise<void> {
         }
         core.endGroup();
 
+        /* Chmod so let the operating system know it's executable! */
         if (platform != 'win') {
             core.startGroup("Chmod if necessary");
             await exec.exec(`chmod -R 777 ${home}/eask-${version}`);
