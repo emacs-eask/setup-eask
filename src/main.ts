@@ -17,16 +17,26 @@ function getPlatform(): string {
 
 async function getLatestTag() {
     const url = 'https://api.github.com/repos/emacs-eask/cli/tags'
+    const options = {
+        host: 'api.github.com',
+        method: 'GET',
+        headers: {'user-agent': 'node.js'},
+    };
+
     return new Promise((resolve) => {
         let data = ''
-        https.get(url, (res: any) => {
-            res.on('data', (chunk: any) => { data += chunk })
-            res.on('end', () => {
-                console.log('end: ' + data);
+        let request = https.request(options, function(response: any){
+            response.on("data", function(chunk: any){
+                data += chunk.toString('utf8');
+            });
+
+            response.on("end", function(){
+                console.log('Body: ' + data);
                 let json = JSON.parse(data);
                 resolve(json[0].name);
             });
         });
+        request.end();
     });
 }
 

@@ -3268,16 +3268,24 @@ function getPlatform() {
 function getLatestTag() {
     return __awaiter(this, void 0, void 0, function* () {
         const url = 'https://api.github.com/repos/emacs-eask/cli/tags';
+        const options = {
+            host: 'api.github.com',
+            method: 'GET',
+            headers: { 'user-agent': 'node.js' },
+        };
         return new Promise((resolve) => {
             let data = '';
-            https.get(url, (res) => {
-                res.on('data', (chunk) => { data += chunk; });
-                res.on('end', () => {
-                    console.log('end: ' + data);
+            let request = https.request(options, function (response) {
+                response.on("data", function (chunk) {
+                    data += chunk.toString('utf8');
+                });
+                response.on("end", function () {
+                    console.log('Body: ' + data);
                     let json = JSON.parse(data);
                     resolve(json[0].name);
                 });
             });
+            request.end();
         });
     });
 }
