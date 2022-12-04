@@ -14,32 +14,33 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    ...
 
     # Install Emacs
     - uses: jcs090218/setup-emacs@master
       with:
         version: '27.2'
 
-    # Setup Node JS runtime
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '16'
-
     # Install Eask
     - uses: emacs-eask/setup-eask@master
       with:
         version: 'snapshot'
 
-    - name: Run tests
-      run: make test
+    ...
 ```
 
 This example is testing your package in below environment.
 
 * Emacs: `27.2`
-* Node: `12.x`
+* Node: `16.x`
 * Eask: `snapshot` (latest)
+
+### Inputs
+
+| name         | value  | default  | description                                                                                   |
+|:-------------|:-------|:---------|:----------------------------------------------------------------------------------------------|
+| version      | string | snapshot | The version of Eask to install, e.g. "0.0.8", or "snapshot" for a recent development version. |
+| architecture | string | x64      | The target architecture (x64, arm64) of the Eask-CLI.                                         |
 
 ## License
 

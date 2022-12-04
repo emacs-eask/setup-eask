@@ -5,7 +5,11 @@ inputs:
   version:
     description: 'The version of Eask to install, e.g. "0.0.8", or "snapshot" for a recent development version.'
     default: 'snapshot'
-
+  architecture:
+    description: 'The target architecture (x64, arm64) of the Eask-CLI.'
+    default: 'x64'
+    required: false
+    
 runs:
   using: 'node16'
   main: 'dist/index.js'
