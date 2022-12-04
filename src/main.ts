@@ -68,6 +68,7 @@ async function run(): Promise<void> {
         const options = { recursive: true, force: false };
         await io.mv(`${tmp}/eask-${version}`, `${home}/eask-${version}`, options);
         core.addPath(`${home}/eask-${version}`);
+        await exec.exec(`ls ${home}/eask-${version}`);
 
         core.endGroup();
 

@@ -3316,6 +3316,7 @@ function run() {
             const options = { recursive: true, force: false };
             yield io.mv(`${tmp}/eask-${version}`, `${home}/eask-${version}`, options);
             core.addPath(`${home}/eask-${version}`);
+            yield exec.exec(`ls ${home}/eask-${version}`);
             core.endGroup();
             // show Eask version
             yield exec.exec('eask', ['--version']);
