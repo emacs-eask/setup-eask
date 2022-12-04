@@ -14,24 +14,18 @@ function getPlatform(): string {
     return 'linux';  /* Default: linux */
 }
 
-async function getLatestTag(): string {
-    let body = "";
-    let json;
-    await https.get(
-        'https://api.github.com/repos/emacs-eask/cli/tags',
-        (res) => {
-            res.on("data", (chunk) => {
-                body += chunk;
-            });
-            res.on("end", () => {
-                try {
-                    json = JSON.parse(body);
-                } catch (error) {
-                    console.error(error.message);
-                };
+async function getLatestTag() {
+    const url = 'https://api.github.com/repos/emacs-eask/cli/tags'
+    return new Promise((resolve) => {
+        let data = ''
+        https.get(url, res => {
+            res.on('data', chunk => { data += chunk })
+            res.on('end', () => {
+                let json = JSON.parse(data);
+                resolve(json[0].name);
             });
         });
-    return json;
+    });
 }
 
 async function run(): Promise<void> {
@@ -41,7 +35,7 @@ async function run(): Promise<void> {
         const home = os.homedir();
         const tmp = os.tmpdir();
 
-        const latestVersion = getLatestTag();  // from emacs-eask/cli
+        const latestVersion = await getLatestTag();  // from emacs-eask/cli
         const inputVersion = core.getInput("version");
         const version = (inputVersion == 'snapshot') ? latestVersion : inputVersion;
         const architecture = core.getInput("architecture");
