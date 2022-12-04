@@ -55,22 +55,27 @@ async function run(): Promise<void> {
         const archiveName = `eask_${version}_${platform}-${architecture}.zip`;
 
         core.startGroup("Fetch Eask");
+        {
+            await exec.exec('curl', [
+                '-L',
+                `https://github.com/emacs-eask/cli/releases/download/${version}/${archiveName}`,
+                '-o',
+                `${tmp}/${archiveName}`
+            ]);
 
-        await exec.exec('curl', [
-            '-L',
-            `https://github.com/emacs-eask/cli/releases/download/${version}/${archiveName}`,
-            '-o',
-            `${tmp}/${archiveName}`
-        ]);
-
-        fs.mkdirSync(`${tmp}/eask-${version}`);
-        await exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}/eask-${version}`]);
-        const options = { recursive: true, force: false };
-        await io.mv(`${tmp}/eask-${version}`, `${home}/eask-${version}`, options);
-        core.addPath(`${home}/eask-${version}`);
-        await exec.exec(`ls ${home}/eask-${version}`);
-
+            fs.mkdirSync(`${tmp}/eask-${version}`);
+            await exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}/eask-${version}`]);
+            const options = { recursive: true, force: false };
+            await io.mv(`${tmp}/eask-${version}`, `${home}/eask-${version}`, options);
+            core.addPath(`${home}/eask-${version}`);
+        }
         core.endGroup();
+
+        if (platform != 'win') {
+            core.startGroup("Chmod if necessary");
+            await exec.exec(`chmod -R 777 ${home}/eask-${version}`);
+            core.endGroup();
+        }
 
         // show Eask version
         await exec.exec('eask', ['--version']);

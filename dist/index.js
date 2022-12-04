@@ -3305,19 +3305,25 @@ function run() {
             const platform = getPlatform();
             const archiveName = `eask_${version}_${platform}-${architecture}.zip`;
             core.startGroup("Fetch Eask");
-            yield exec.exec('curl', [
-                '-L',
-                `https://github.com/emacs-eask/cli/releases/download/${version}/${archiveName}`,
-                '-o',
-                `${tmp}/${archiveName}`
-            ]);
-            fs_1.default.mkdirSync(`${tmp}/eask-${version}`);
-            yield exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}/eask-${version}`]);
-            const options = { recursive: true, force: false };
-            yield io.mv(`${tmp}/eask-${version}`, `${home}/eask-${version}`, options);
-            core.addPath(`${home}/eask-${version}`);
-            yield exec.exec(`ls ${home}/eask-${version}`);
+            {
+                yield exec.exec('curl', [
+                    '-L',
+                    `https://github.com/emacs-eask/cli/releases/download/${version}/${archiveName}`,
+                    '-o',
+                    `${tmp}/${archiveName}`
+                ]);
+                fs_1.default.mkdirSync(`${tmp}/eask-${version}`);
+                yield exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}/eask-${version}`]);
+                const options = { recursive: true, force: false };
+                yield io.mv(`${tmp}/eask-${version}`, `${home}/eask-${version}`, options);
+                core.addPath(`${home}/eask-${version}`);
+            }
             core.endGroup();
+            if (platform != 'win') {
+                core.startGroup("Chmod if necessary");
+                yield exec.exec(`chmod -R 777 ${home}/eask-${version}`);
+                core.endGroup();
+            }
             // show Eask version
             yield exec.exec('eask', ['--version']);
         }
