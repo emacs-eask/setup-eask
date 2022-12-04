@@ -3307,7 +3307,7 @@ function run() {
                 `${tmp}/${archiveName}`
             ]);
             //await exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}`]);
-            yield exec.exec('ls');
+            yield exec.exec(`ls ${tmp}`);
             //const options = { recursive: true, force: false };
             //await io.mv(`${tmp}/eask-${version}`, `${home}/.eask`, options);
             //core.addPath(`${home}/.eask/bin`);
