@@ -32,7 +32,7 @@ async function getLatestTag() {
 
             response.on("end", function(){
                 let json = JSON.parse(data);
-                resolve(json[0].name);
+                resolve(json[0]?.name);
             });
         });
         request.end();
@@ -46,7 +46,8 @@ async function run(): Promise<void> {
         const home = os.homedir();
         const tmp = os.tmpdir();
 
-        const latestVersion = await getLatestTag();  // from emacs-eask/cli
+        const fallbackVersion = '0.7.2';  // version to fallback
+        const latestVersion = await getLatestTag() || fallbackVersion;  // from emacs-eask/cli
         const inputVersion = core.getInput("version");
         const version = (inputVersion == 'snapshot') ? latestVersion : inputVersion;
         const architecture = core.getInput("architecture");

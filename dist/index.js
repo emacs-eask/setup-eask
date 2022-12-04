@@ -3284,8 +3284,9 @@ function getLatestTag() {
                     data += chunk.toString('utf8');
                 });
                 response.on("end", function () {
+                    var _a;
                     let json = JSON.parse(data);
-                    resolve(json[0].name);
+                    resolve((_a = json[0]) === null || _a === void 0 ? void 0 : _a.name);
                 });
             });
             request.end();
@@ -3298,7 +3299,8 @@ function run() {
             const PATH = process.env.PATH;
             const home = os.homedir();
             const tmp = os.tmpdir();
-            const latestVersion = yield getLatestTag(); // from emacs-eask/cli
+            const fallbackVersion = '0.7.2'; // version to fallback
+            const latestVersion = (yield getLatestTag()) || fallbackVersion; // from emacs-eask/cli
             const inputVersion = core.getInput("version");
             const version = (inputVersion == 'snapshot') ? latestVersion : inputVersion;
             const architecture = core.getInput("architecture");
