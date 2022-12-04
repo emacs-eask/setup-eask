@@ -31,7 +31,6 @@ async function getLatestTag() {
             });
 
             response.on("end", function(){
-                console.log('Body: ' + data);
                 let json = JSON.parse(data);
                 resolve(json[0].name);
             });
@@ -65,6 +64,7 @@ async function run(): Promise<void> {
         ]);
         await exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}`]);
         const options = { recursive: true, force: false };
+        await exec.exec('ls');
         await io.mv(`${tmp}/eask-${version}`, `${home}/.eask`, options);
         core.addPath(`${home}/.eask/bin`);
 
