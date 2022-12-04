@@ -14,8 +14,9 @@ function getPlatform(): string {
     return 'linux';  /* Default: linux */
 }
 
-async function getLatest(): string {
+async function getLatestTag(): string {
     let body = "";
+    let json;
     await https.get(
         'https://api.github.com/repos/emacs-eask/cli/tags',
         (res) => {
@@ -24,29 +25,42 @@ async function getLatest(): string {
             });
             res.on("end", () => {
                 try {
-                    let json = JSON.parse(body);
+                    json = JSON.parse(body);
                 } catch (error) {
                     console.error(error.message);
                 };
             });
         });
+    return json;
 }
 
 async function run(): Promise<void> {
     try {
         const PATH = process.env.PATH;
 
-        const latestVersion = '0.7.2';
+        const home = os.homedir();
+        const tmp = os.tmpdir();
+
+        const latestVersion = getLatestTag();  // from emacs-eask/cli
         const inputVersion = core.getInput("version");
-        const version = inputVersion == 'snapshot' ? latestVersion : inputVersion;
+        const version = (inputVersion == 'snapshot') ? latestVersion : inputVersion;
         const architecture = core.getInput("architecture");
         const platform = getPlatform();
 
-        const binUrl = `https://github.com/emacs-eask/cli/releases/download/${version}/eask_${version}_${platform}-${architecture}.zip`;
+        const archiveName = `eask_${version}_${platform}-${architecture}.zip`;
 
-        core.startGroup("Installing Eask");
+        core.startGroup("Fetch Eask");
 
-
+        await exec.exec('curl', [
+            '-L',
+            `https://github.com/emacs-eask/cli/releases/download/${version}/${archiveName}`,
+            '-o',
+            `${tmp}/${archiveName}`
+        ]);
+        await exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}`]);
+        const options = { recursive: true, force: false };
+        await io.mv(`${tmp}/eask-${version}`, `${home}/.eask`, options);
+        core.addPath(`${home}/.eask/bin`);
 
         core.endGroup();
 
