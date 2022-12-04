@@ -32,7 +32,6 @@ jobs:
 This example is testing your package in below environment.
 
 * Emacs: `27.2`
-* Node: `16.x`
 * Eask: `snapshot` (latest)
 
 ### Inputs
