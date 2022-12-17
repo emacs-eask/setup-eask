@@ -46,7 +46,7 @@ async function run(): Promise<void> {
         const home = os.homedir();
         const tmp = os.tmpdir();
 
-        const fallbackVersion = '0.7.4';  // version to fallback
+        const fallbackVersion = '0.7.5';  // version to fallback
         const latestVersion = await getLatestTag() || fallbackVersion;  // from emacs-eask/cli
         const inputVersion = core.getInput("version");
         const version = (inputVersion == 'snapshot') ? latestVersion : inputVersion;
