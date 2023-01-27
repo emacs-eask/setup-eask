@@ -3299,7 +3299,7 @@ function run() {
             const PATH = process.env.PATH;
             const home = os.homedir();
             const tmp = os.tmpdir();
-            const fallbackVersion = '0.7.9'; // version to fallback
+            const fallbackVersion = '0.7.10'; // version to fallback
             const latestVersion = (yield getLatestTag()) || fallbackVersion; // from emacs-eask/cli
             const inputVersion = core.getInput("version");
             const version = (inputVersion == 'snapshot') ? latestVersion : inputVersion;
