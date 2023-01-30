@@ -15,30 +15,6 @@ function getPlatform(): string {
     return 'linux';  /* Default: linux */
 }
 
-async function getLatestTag() {
-    const url = 'https://api.github.com/repos/emacs-eask/cli/tags'
-    const options = {
-        host: 'api.github.com',
-        method: 'GET',
-        headers: {'user-agent': 'node.js'},
-    };
-
-    return new Promise((resolve) => {
-        let data = ''
-        let request = https.request(url, options, function(response: any){
-            response.on("data", function(chunk: any){
-                data += chunk.toString('utf8');
-            });
-
-            response.on("end", function(){
-                let json = JSON.parse(data);
-                resolve(json[0]?.name);
-            });
-        });
-        request.end();
-    });
-}
-
 async function run(): Promise<void> {
     try {
         const PATH = process.env.PATH;
@@ -46,20 +22,23 @@ async function run(): Promise<void> {
         const home = os.homedir();
         const tmp = os.tmpdir();
 
-        const fallbackVersion = '0.7.10';  // version to fallback
-        const latestVersion = await getLatestTag() || fallbackVersion;  // from emacs-eask/cli
-        const inputVersion = core.getInput("version");
-        const version = (inputVersion == 'snapshot') ? latestVersion : inputVersion;
+        const version      = core.getInput("version");
         const architecture = core.getInput("architecture");
-        const platform = getPlatform();
+        const platform     = getPlatform();
 
-        const archiveName = `eask_${version}_${platform}-${architecture}.zip`;
+        const archiveSuffix = `${platform}-${architecture}.zip`;  // win-x64.zip
+        const archiveName = `eask_${version}_${archiveSuffix}`;   // eask_0.7.10_win-x64.zip
 
         core.startGroup("Fetch Eask");
         {
+            let downloadUrl = `https://github.com/emacs-eask/cli/releases/download/${version}/${archiveName}`;
+            if (version == 'snapshot') {
+                downloadUrl = `https://github.com/emacs-eask/binaries/raw/master/${archiveSuffix}`;
+            }
+
             await exec.exec('curl', [
                 '-L',
-                `https://github.com/emacs-eask/cli/releases/download/${version}/${archiveName}`,
+                downloadUrl,
                 '-o',
                 `${tmp}/${archiveName}`
             ]);
