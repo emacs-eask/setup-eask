@@ -3286,7 +3286,6 @@ function run() {
                 if (version == 'snapshot') {
                     downloadUrl = `https://github.com/emacs-eask/binaries/raw/master/${archiveSuffix}`;
                 }
-                console.log('???? ' + downloadUrl);
                 yield exec.exec('curl', [
                     '-L',
                     downloadUrl,
