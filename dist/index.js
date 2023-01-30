@@ -3269,48 +3269,27 @@ function getPlatform() {
     }
     return 'linux'; /* Default: linux */
 }
-function getLatestTag() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const url = 'https://api.github.com/repos/emacs-eask/cli/tags';
-        const options = {
-            host: 'api.github.com',
-            method: 'GET',
-            headers: { 'user-agent': 'node.js' },
-        };
-        return new Promise((resolve) => {
-            let data = '';
-            let request = https.request(url, options, function (response) {
-                response.on("data", function (chunk) {
-                    data += chunk.toString('utf8');
-                });
-                response.on("end", function () {
-                    var _a;
-                    let json = JSON.parse(data);
-                    resolve((_a = json[0]) === null || _a === void 0 ? void 0 : _a.name);
-                });
-            });
-            request.end();
-        });
-    });
-}
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const PATH = process.env.PATH;
             const home = os.homedir();
             const tmp = os.tmpdir();
-            const fallbackVersion = '0.7.10'; // version to fallback
-            const latestVersion = (yield getLatestTag()) || fallbackVersion; // from emacs-eask/cli
-            const inputVersion = core.getInput("version");
-            const version = (inputVersion == 'snapshot') ? latestVersion : inputVersion;
+            const version = core.getInput("version");
             const architecture = core.getInput("architecture");
             const platform = getPlatform();
-            const archiveName = `eask_${version}_${platform}-${architecture}.zip`;
+            const archiveSuffix = `${platform}-${architecture}`; // win-x64
+            const archiveName = `eask_${version}_${archiveSuffix}.zip`; // eask_0.7.10_win-x64.zip
             core.startGroup("Fetch Eask");
             {
+                let downloadUrl = `https://github.com/emacs-eask/cli/releases/download/${version}/${archiveName}`;
+                if (version == 'snapshot') {
+                    downloadUrl = `https://github.com/emacs-eask/binaries/raw/master/${archiveSuffix}.tar`;
+                }
+                console.log('???? ' + downloadUrl);
                 yield exec.exec('curl', [
                     '-L',
-                    `https://github.com/emacs-eask/cli/releases/download/${version}/${archiveName}`,
+                    downloadUrl,
                     '-o',
                     `${tmp}/${archiveName}`
                 ]);
