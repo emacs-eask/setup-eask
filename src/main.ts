@@ -36,8 +36,6 @@ async function run(): Promise<void> {
                 downloadUrl = `https://github.com/emacs-eask/binaries/raw/master/${archiveSuffix}`;
             }
 
-            console.log('???? ' + downloadUrl);
-
             await exec.exec('curl', [
                 '-L',
                 downloadUrl,
