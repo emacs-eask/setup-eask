@@ -3278,13 +3278,13 @@ function run() {
             const version = core.getInput("version");
             const architecture = core.getInput("architecture");
             const platform = getPlatform();
-            const archiveSuffix = `${platform}-${architecture}`; // win-x64
-            const archiveName = `eask_${version}_${archiveSuffix}.zip`; // eask_0.7.10_win-x64.zip
+            const archiveSuffix = `${platform}-${architecture}.zip`; // win-x64.zip
+            const archiveName = `eask_${version}_${archiveSuffix}`; // eask_0.7.10_win-x64.zip
             core.startGroup("Fetch Eask");
             {
                 let downloadUrl = `https://github.com/emacs-eask/cli/releases/download/${version}/${archiveName}`;
                 if (version == 'snapshot') {
-                    downloadUrl = `https://github.com/emacs-eask/binaries/raw/master/${archiveSuffix}.tar`;
+                    downloadUrl = `https://github.com/emacs-eask/binaries/raw/master/${archiveSuffix}`;
                 }
                 console.log('???? ' + downloadUrl);
                 yield exec.exec('curl', [
