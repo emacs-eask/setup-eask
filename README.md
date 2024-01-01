@@ -42,7 +42,7 @@ This example is testing your package in below environment.
 | version      | string | snapshot | The version of Eask to install, e.g. "0.0.8", or "snapshot" for a recent development version. |
 | architecture | string | x64      | The target architecture (x64, arm64) of the Eask-CLI.                                         |
 
-## License
+## ⚜️ License
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -61,3 +61,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+See [`LICENSE`](./LICENSE.txt) for details.
