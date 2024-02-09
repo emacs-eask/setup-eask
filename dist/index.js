@@ -3269,6 +3269,14 @@ function getPlatform() {
     }
     return 'linux'; /* Default: linux */
 }
+function getExt() {
+    switch (process.platform) {
+        case 'linux':
+        case 'darwin': return 'tar.gz';
+        case 'win32': return 'zip';
+    }
+    return 'tar.gz'; /* Default: linux */
+}
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -3278,7 +3286,8 @@ function run() {
             const version = core.getInput("version");
             const architecture = core.getInput("architecture");
             const platform = getPlatform();
-            const archiveSuffix = `${platform}-${architecture}.zip`; // win-x64.zip
+            const ext = getExt();
+            const archiveSuffix = `${platform}-${architecture}.${ext}`; // win-x64.zip
             const archiveName = `eask_${version}_${archiveSuffix}`; // eask_0.7.10_win-x64.zip
             core.startGroup("Fetch Eask");
             {
@@ -3293,18 +3302,18 @@ function run() {
                     `${tmp}/${archiveName}`
                 ]);
                 fs_1.default.mkdirSync(`${tmp}/eask-${version}`);
-                yield exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}/eask-${version}`]);
+                /* Extraction */
+                {
+                    if (platform === 'win')
+                        yield exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}/eask-${version}`]);
+                    else
+                        yield exec.exec('tar', ['-xvzf', `${tmp}/${archiveName}`, '-C', `${tmp}/eask-${version}`]);
+                }
                 const options = { recursive: true, force: false };
                 yield io.mv(`${tmp}/eask-${version}`, `${home}/eask-${version}`, options);
                 core.addPath(`${home}/eask-${version}`);
             }
             core.endGroup();
-            /* Chmod so let the operating system know it's executable! */
-            if (platform != 'win') {
-                core.startGroup("Chmod if necessary");
-                yield exec.exec(`chmod -R 777 ${home}/eask-${version}`);
-                core.endGroup();
-            }
             // show Eask version
             yield exec.exec('eask', ['--version']);
         }
