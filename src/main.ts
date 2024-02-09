@@ -19,7 +19,7 @@ function getExt(): string {
     switch (process.platform) {
         case 'linux':
         case 'darwin': return 'tar.gz';
-        case 'win32': return '.zip';
+        case 'win32': return 'zip';
     }
     return 'tar.gz';  /* Default: linux */
 }
@@ -56,7 +56,7 @@ async function run(): Promise<void> {
             fs.mkdirSync(`${tmp}/eask-${version}`);
             /* Extraction */
             {
-                if (ext === 'zip')
+                if (platform === 'win')
                     await exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}/eask-${version}`]);
                 else
                     await exec.exec('tar', ['-xvzf', `${tmp}/${archiveName}`, '-C', `${tmp}/eask-${version}`]);
