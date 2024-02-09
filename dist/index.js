@@ -3273,7 +3273,7 @@ function getExt() {
     switch (process.platform) {
         case 'linux':
         case 'darwin': return 'tar.gz';
-        case 'win32': return '.zip';
+        case 'win32': return 'zip';
     }
     return 'tar.gz'; /* Default: linux */
 }
@@ -3304,7 +3304,7 @@ function run() {
                 fs_1.default.mkdirSync(`${tmp}/eask-${version}`);
                 /* Extraction */
                 {
-                    if (ext === 'zip')
+                    if (platform === 'win')
                         yield exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}/eask-${version}`]);
                     else
                         yield exec.exec('tar', ['-xvzf', `${tmp}/${archiveName}`, '-C', `${tmp}/eask-${version}`]);
