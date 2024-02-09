@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        eask_version: [0.9.4, snapshot]
+        eask_version: [0.9.5, snapshot]
 
     steps:
     - uses: actions/checkout@v4
