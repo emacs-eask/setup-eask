@@ -15,6 +15,15 @@ function getPlatform(): string {
     return 'linux';  /* Default: linux */
 }
 
+function getExt(): string {
+    switch (process.platform) {
+        case 'linux':
+        case 'darwin': return 'tar.gz';
+        case 'win32': return '.zip';
+    }
+    return 'tar.gz';  /* Default: linux */
+}
+
 async function run(): Promise<void> {
     try {
         const PATH = process.env.PATH;
@@ -26,8 +35,9 @@ async function run(): Promise<void> {
         const architecture = core.getInput("architecture");
         const platform     = getPlatform();
 
-        const archiveSuffix = `${platform}-${architecture}.zip`;  // win-x64.zip
-        const archiveName = `eask_${version}_${archiveSuffix}`;   // eask_0.7.10_win-x64.zip
+        const ext           = getExt();
+        const archiveSuffix = `${platform}-${architecture}.${ext}`;  // win-x64.zip
+        const archiveName   = `eask_${version}_${archiveSuffix}`;    // eask_0.7.10_win-x64.zip
 
         core.startGroup("Fetch Eask");
         {
@@ -44,19 +54,18 @@ async function run(): Promise<void> {
             ]);
 
             fs.mkdirSync(`${tmp}/eask-${version}`);
-            await exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}/eask-${version}`]);
+            /* Extraction */
+            {
+                if (ext === 'zip')
+                    await exec.exec('unzip', [`${tmp}/${archiveName}`, '-d', `${tmp}/eask-${version}`]);
+                else
+                    await exec.exec('tar', ['-xvzf', `${tmp}/${archiveName}`, '-C', `${tmp}/eask-${version}`]);
+            }
             const options = { recursive: true, force: false };
             await io.mv(`${tmp}/eask-${version}`, `${home}/eask-${version}`, options);
             core.addPath(`${home}/eask-${version}`);
         }
         core.endGroup();
-
-        /* Chmod so let the operating system know it's executable! */
-        if (platform != 'win') {
-            core.startGroup("Chmod if necessary");
-            await exec.exec(`chmod -R 777 ${home}/eask-${version}`);
-            core.endGroup();
-        }
 
         // show Eask version
         await exec.exec('eask', ['--version']);
