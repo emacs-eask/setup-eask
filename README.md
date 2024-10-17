@@ -37,10 +37,10 @@ This example is testing your package in below environment.
 
 ### Inputs
 
-| name         | value  | default  | description                                                                                   |
-|:-------------|:-------|:---------|:----------------------------------------------------------------------------------------------|
-| version      | string | snapshot | The version of Eask to install, e.g. "0.0.8", or "snapshot" for a recent development version. |
-| architecture | string | x64      | The target architecture (x64, arm64) of the Eask-CLI.                                         |
+| name         | value  | default  | description                                                                                       |
+|:-------------|:-------|:---------|:--------------------------------------------------------------------------------------------------|
+| version      | string | snapshot | The version of [Eask][] to install, e.g. "0.0.8", or "snapshot" for a recent development version. |
+| architecture | string | x64      | The target architecture (x64, arm64) of the [Eask][] CLI.                                         |
 
 ## ⚜️ License
 
@@ -63,3 +63,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 See [`LICENSE`](./LICENSE) for details.
+
+
+<!-- Links -->
+
+[Eask]: https://github.com/emacs-eask/cli
