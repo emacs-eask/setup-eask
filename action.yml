@@ -9,7 +9,7 @@ inputs:
     description: 'The target architecture (x64, arm64) of the Eask-CLI.'
     default: 'x64'
     required: false
-    
+
 runs:
   using: 'node20'
   main: 'dist/index.js'
