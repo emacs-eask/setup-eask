@@ -7,9 +7,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## v3 (Unreleased)
 > Released N/A
 
-* Use binaries instead of npm (#86)
-* Stable with fallback version (#87)
-* fix: Use `.tar.gz` file (19a5cee88bed0c7705096da8eb42a45637faa010)
+* Use binaries instead of npm ([`#86`](../../pull/86))
+* Stable with fallback version ([`#87`](../../pull/87))
+* fix: Use `.tar.gz` file ([`19a5cee`](../../commit/19a5cee88bed0c7705096da8eb42a45637faa010))
 
 ## v2
 > Released Mar 17, 2022
