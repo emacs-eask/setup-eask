@@ -1,13 +1,15 @@
 name: 'CI'
+
 on:
-  pull_request:
-  push:
-    paths-ignore:
-    - '**.md'
-    - '**.org'
-    branches:
-      - master
+  workflow_run:
+    workflows: ["Build"]
+    types:
+      - completed
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
